@@ -11,61 +11,71 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 
+// Import audio files directly to get the correct URL from Vite
+import apaMungkinAudio from '/src/Music/Bernadya - Apa Mungkin (Official Music Video).mp3';
+import evaluasiAudio from '/src/Music/Evaluasi.mp3';
+import resahJadiLukaAudio from '/src/Music/Resah Jadi Luka.mp3';
+
 const MediaControlCard = () => {
   const theme = useTheme();
-  const [currentSong, setCurrentSong] = React.useState(0);
+  const [currentSongIndex, setCurrentSongIndex] = React.useState(0);
   const [isPlaying, setIsPlaying] = React.useState(false);
 
   const songs = [
     {
-			title: "Satu Bulan",
-			artist: "Bernadya",
-			audio: "public/images/Bernadya - Satu Bulan (Official Music Video).mp3",
-			cover: "public/images/Bernadya - Satu Bulan (Cover).jpeg",
-		},
-		{
-			title: "Badut",
-			artist: "Raavfy",
-			audio: "public/images/Badut - Raavfy (Official Lyric Video).mp3",
-			cover: "public/images/Badut.jpg",
-		},
-		{
-			title: "Apa Mungkin",
-			artist: "Bernadya",
-			audio: "public/images/Bernadya - Apa Mungkin (Official Music Video).mp3",
-			cover: "public/images/Apa Mungkin.jpg",
-		},
-
+      title: "Apa Mungkin",
+      artist: "Bernadya",
+      audio: apaMungkinAudio,
+      cover: "/images/Apa Mungkin.jpeg",
+    },
+    {
+      title: "Evaluasi",
+      artist: "Hindia",
+      audio: evaluasiAudio,
+      cover: "/images/Evaluasi.jpg",
+    },
+    {
+      title: "Resah Jadi Luka",
+      artist: "Daun Jatuh",
+      audio: resahJadiLukaAudio,
+      cover: "/images/Resah Jadi Luka.jpg",
+    },
   ];
 
   const audioRef = React.useRef(null);
 
-  const playSong = () => {
+  // Effect to handle the actual play/pause logic
+  React.useEffect(() => {
     if (isPlaying) {
-      pauseSong();
+      audioRef.current.play().catch(e => {
+        // If autoplay is blocked by the browser, reset the state.
+        console.error("Play failed:", e);
+        setIsPlaying(false);
+      });
     } else {
-      audioRef.current.play();
-      setIsPlaying(true);
+      audioRef.current.pause();
     }
-  };
+  }, [isPlaying]);
 
-  const pauseSong = () => {
-    audioRef.current.pause();
-    setIsPlaying(false);
-  };
+  // Effect to load a new song when the index changes
+  React.useEffect(() => {
+    audioRef.current.src = songs[currentSongIndex].audio;
+    // If a song was already playing, continue playing the new one
+    if (isPlaying) {
+      audioRef.current.play().catch(e => setIsPlaying(false));
+    }
+  }, [currentSongIndex]);
 
-  const handleSongEnd = () => {
-    setIsPlaying(false);
+  const togglePlayPause = () => {
+    setIsPlaying(prevIsPlaying => !prevIsPlaying);
   };
 
   const nextSong = () => {
-    setCurrentSong((prevSong) => (prevSong === songs.length - 1 ? 0 : prevSong + 1));
-    pauseSong();
+    setCurrentSongIndex(prevIndex => (prevIndex + 1) % songs.length);
   };
 
   const previousSong = () => {
-    setCurrentSong((prevSong) => (prevSong === 0 ? songs.length - 1 : prevSong - 1));
-    pauseSong();
+    setCurrentSongIndex(prevIndex => (prevIndex - 1 + songs.length) % songs.length);
   };
 
   return (
@@ -73,24 +83,23 @@ const MediaControlCard = () => {
       <CardMedia
         component="img"
         sx={{ width: 151 }}
-        image={songs[currentSong].cover}
+        image={songs[currentSongIndex].cover}
         alt="Music Cover" 
       />
       <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }} >
         <CardContent sx={{ flex: '1 0 auto', pb: '0vh', pt: 1.2 }}>
-
           <Typography component="div" variant="" id='TitleSong'>
-            {songs[currentSong].title}
+            {songs[currentSongIndex].title}
           </Typography>
           <Typography variant="subtitle1" component="div" id='ArtistSong'>
-            {songs[currentSong].artist}
+            {songs[currentSongIndex].artist}
           </Typography>
         </CardContent>
         <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
           <IconButton aria-label="previous" onClick={previousSong} color="inherit">
-            {theme.direction === 'rtl=' ? <SkipNextIcon /> : <SkipPreviousIcon />}
+            <SkipPreviousIcon />
           </IconButton>
-          <IconButton aria-label="play/pause" onClick={playSong} color="inherit">
+          <IconButton aria-label="play/pause" onClick={togglePlayPause} color="inherit">
             {isPlaying ? (
               <PauseIcon sx={{ height: 38, width: 38 }} />
             ) : (
@@ -98,15 +107,16 @@ const MediaControlCard = () => {
             )}
           </IconButton>
           <IconButton aria-label="next" onClick={nextSong}  color="inherit">
-            {theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
+            <SkipNextIcon />
           </IconButton>
         </Box>
       </Box>
       <audio
         ref={audioRef}
-        src={songs[currentSong].audio}
-        onEnded={handleSongEnd}
-      ></audio>
+        onEnded={nextSong}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+      />
     </Card>
   );
 };

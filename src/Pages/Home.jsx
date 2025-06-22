@@ -21,7 +21,7 @@ const Home = () => {
 				<div className="ContainerTitle">
 					<span>ORIGINAL SERIES BY</span>
 					<div className="TextNetflix">
-						<img src="public/images/brands-boycotting-russian-market-vaclav-kudelka-1-removebg-preview.png" alt="" />
+						<img src="/images/brands-boycotting-russian-market-vaclav-kudelka-1-removebg-preview.png" alt="" />
 					</div>
 				</div>
 			</section>

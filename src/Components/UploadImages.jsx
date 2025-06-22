@@ -49,6 +49,7 @@ function Gallery() {
 				text: "The maximum size for a photo is 2MB",
 			})
 			setSelectedImage(null) // Reset preview image if any
+			setImageUpload(null) // Reset file input
 			return
 		}
 
@@ -62,8 +63,11 @@ function Gallery() {
 					})
 					.catch((error) => {
 						console.log(error)
+						setSelectedImage(null) // Reset selected image
+						setImageUpload(null) // Reset file input
 					})
 				setSelectedImage(null) // Reset selected image
+				setImageUpload(null) // Reset file input
 				Swal.fire({
 					position: "top-end",
 					icon: "success",
@@ -79,6 +83,8 @@ function Gallery() {
 			})
 			.catch((error) => {
 				console.log(error)
+				setSelectedImage(null) // Reset selected image
+				setImageUpload(null) // Reset file input
 			})
 	}
 

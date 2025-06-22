@@ -8,7 +8,7 @@ const SectionHp = () => {
 			id="SectionHp">
 			<div className="md:w-1/2 flex justify-center items-center md:flex mt-[-10%]" id="ContainerHp">
 				<img
-					src="public/images/Phones.png"
+					src="/images/Phones.png"
 					alt="Gambar"
 					className="md:float-left float-none md:mr-0 md:mb-0 absolute  md:top-[13%]"
 					id="ImagesHp"

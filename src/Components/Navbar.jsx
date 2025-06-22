@@ -86,8 +86,7 @@ function ResponsiveAppBar() {
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <img id='ImgCat' src="" alt="" sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} className='mr-2 relative bottom-0.5' />
-{/*           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
+          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -103,7 +102,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            NJR
+            SNAKE'S
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -142,8 +141,7 @@ function ResponsiveAppBar() {
               ))}
             </Menu>
           </Box>
-          <img id='ImgCat1' src="#" alt="" sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} className='mr-2 relative bottom-0.5' />
-          {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
+          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -160,7 +158,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            NJR 
+            SNAKE'S 
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
