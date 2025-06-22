@@ -2,14 +2,15 @@ import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
+// Securely load configuration from Vercel's Environment Variables
 const firebaseConfig = {
-  apiKey: "AIzaSyD-86ms53CcR-cYnJ1LYiCKXwLcsgkGdcw",
-  authDomain: "the-cow-47a4a.firebaseapp.com",
-  projectId: "the-cow-47a4a",
-  storageBucket: "the-cow-47a4a.appspot.com",
-  messagingSenderId: "188328880869",
-  appId: "1:188328880869:web:6bcf2272b5630666dec20c",
-  measurementId: "G-M7V5LXG05J"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
